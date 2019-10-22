@@ -4,6 +4,7 @@
 
 - Moverse a la carpeta raiz jwt
 - Ejecutar npm install en consola
+- Crear coleccion de mongo "Usuarios" (use Usuarios).
 
 Nota: La aplicación corre en una base de datos local mongo db en el puerto 27017, la colección y base de datos recibe el nobre de Usuarios, si no existen registros se agregan 3 usuarios por defecto.
 
@@ -33,3 +34,16 @@ Cuando un usuario intenta logearse, se genera un toquen que se guarda en la BD y
 
 La contraseña se encripta con el algoritmo de md5. Adicionalmente, existien 3 roles:
 ADMINSITRADOR, EDITOR y USUARIO.
+
+
+Asi mismo, se crearon dos rutas adicionales eventos POST que permite crear eventos solo disponible para usuarios ADMINISTRADORES, eventos accesible a todos los usuarios y perfil accesisible solo a editores y usuarios.
+
+Modelo evento:
+
+{
+  "nombre": "Evento de visita",
+  "descripcion": "Evento de visita al vaticano",
+  "duracion": "2 horas"
+}
+
+Si se realizan pruebas sobre postman para el caso de métodos POST recordar que el cuerpo de la petición debe tener el formato JSON(aplication/json)

@@ -50,7 +50,8 @@ let checkToken = ( req, res, next) => {
                         res.locals.user=data[i];
                         console.log(res.locals.user);
                         console.log(data[i].role);
-                        
+                        res.locals.body=req.body;
+                        console.log(req.body);
                          next();
                         
                         }

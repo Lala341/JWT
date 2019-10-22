@@ -15,7 +15,7 @@ class HandlerGenerator {
             client.db("Usuarios").collection("Usuarios").find({}).toArray((err, data) => {
               
               if(data.length==0){
-                data =[{username: "usuario1", password: crypto.createHash('md5').update("usuario1").digest("hex"),token:"", role:"ADMINSITRADOR" },
+                data =[{username: "usuario1", password: crypto.createHash('md5').update("usuario1").digest("hex"),token:"", role:"ADMINISTRADOR" },
 {username: "usuario2", password: crypto.createHash('md5').update("usuario2").digest("hex"),token:"", role:"EDITOR"},
 {username: "usuario3",password: crypto.createHash('md5').update("usuario3").digest("hex"),token:"", role:"USUARIO"}];
 
@@ -30,6 +30,46 @@ class HandlerGenerator {
               else{
                 console.log("BD con datos");
               }
+
+
+
+              client.connect(err => {
+                client.db("Usuarios").collection("Eventos").find({}).toArray((err, data1) => {
+                  
+                  if(data1.length==0){
+                    data =[{
+                      nombre: "Evento de visita",
+                      descripcion: "Evento de visita al vaticano",
+                      duracion: "2 horas"
+                    },{
+                      nombre: "Evento de visita",
+                      descripcion: "Evento de visita al vaticano",
+                      duracion: "2 horas"
+                    }];
+    
+    
+    
+            client.connect(err => {
+                client.db("Usuarios").collection("Eventos").insert(data).then(function(res) {
+                    console.log(res);
+                  });
+            });
+                  }
+                  else{
+                    console.log("BD eventos con datos");
+                  }
+                });
+    
+            });
+
+
+
+
+
+
+
+
+
             });
 
         });
@@ -169,7 +209,88 @@ console.log(role);
         }
 
   }
+
+  eventos( req, res) {
+    
+    // Retorna una respuesta exitosa con previa validación del token y el rol USER
+    
+var role=res.locals.user.role;
+
+client.connect(err => {
+  client.db("Usuarios").collection("Eventos").find({}).toArray((err, data) => {
+     
+      
+        res.json( {
+              eventos: data,
+              message: 'Estos son los eventos disponibles'
+            } );
+        
+  });
+});
+
+  }
  
+
+
+
+
+  creareventos( req, res) {
+    
+    // Retorna una respuesta exitosa con previa validación del token y el rol USER
+    
+var role=res.locals.user.role;
+var username=res.locals.user.username;
+console.log(role);
+        if(role==='ADMINISTRADOR'){
+          
+                           
+          var data ={nombre:req.body.nombre, descripcion: req.body.descripcion, duracion: req.body.duracion };
+          
+          
+          
+                  client.connect(err => {
+                      client.db("Usuarios").collection("Eventos").insert(data).then(function(res2) {
+                          res.json( {
+                            success: true,
+                            eventos: res2
+                        } );
+                        });
+                  });
+                        
+        }
+        else {
+          
+                res.json( {
+                    success: false,
+                    message: 'No esta permitido esta accion para el rol de '+ role
+                } );
+        }
+
+  }
+  perfil( req, res) {
+    
+    // Retorna una respuesta exitosa con previa validación del token y el rol USER
+    
+var role=res.locals.user.role;
+var username=res.locals.user.username;
+console.log(role);
+        if(role==='USUARIO'||role==='EDITOR'){
+            res.json( {
+                          success: true,
+                         user: res.locals.user
+                      } );
+                      
+                        
+        }
+        else {
+          
+                res.json( {
+                    success: false,
+                    message: 'No esta permitido esta accion para el rol de '+ role
+                } );
+        }
+
+  }
 }
 
 module.exports = HandlerGenerator;
