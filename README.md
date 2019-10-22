@@ -36,7 +36,7 @@ La contraseña se encripta con el algoritmo de md5. Adicionalmente, existien 3 r
 ADMINSITRADOR, EDITOR y USUARIO.
 
 
-Asi mismo, se crearon dos rutas adicionales eventos POST que permite crear eventos solo disponible para usuarios ADMINISTRADORES, eventos accesible a todos los usuarios y perfil accesisible solo a editores y usuarios.
+Se crearon dos rutas adicionales eventos POST que permite crear eventos solo disponible para usuarios ADMINISTRADORES, eventos GET accesible a todos los usuarios y perfil accesisible solo a editores y usuarios.
 
 Modelo evento:
 
